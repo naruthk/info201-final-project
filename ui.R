@@ -10,9 +10,16 @@ my_ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
     ),
-    mainPanel()
+    mainPanel(
+      tabsetPanel(type = "tabs",
+                  tabPanel("Plot", plotOutput("plot1")),
+                  tabPanel("Plot", plotOutput("plot2")),
+                  tabPanel("Plot", plotOutput("plot3")),
+                  tabPanel("Plot", plotOutput("plot4"))
+                  
+    )
   )
   
 )
-
+)
 shinyUI(my_ui)
