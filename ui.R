@@ -15,7 +15,7 @@ my_ui <- fluidPage(
                   tabPanel("Plot", plotOutput("plot1")),
                   tabPanel("Plot", plotOutput("plot2")),
                   tabPanel("Plot", plotOutput("plot3")),
-                  tabPanel("Plot", plotOutput("plot4"))
+                  tabPanel("DUI Against Various Theft Types", plotOutput("plot4"))
                   
     )
   )
