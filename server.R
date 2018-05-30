@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 national_arrests <- read.csv("data/arrests_national.csv")
 
 state <- read.csv("data/estimated_crimes.csv")
@@ -8,17 +8,6 @@ library(dplyr)
 library(tidyr)
 
 my_server <- function(input, output) {
-=======
-
-  national_arrests <- read.csv("data/arrests_national.csv")
-  
-  state <- read.csv("data/estimated_crimes.csv")
-  library(plotly)
-  library(ggplot2)
-  library(dplyr)
-  library(tidyr)
-  
-  my_server <- function(input, output) {
     
     
     national_arrests <- national_arrests %>%
@@ -63,7 +52,7 @@ my_server <- function(input, output) {
     
     
   }
->>>>>>> emma
+
   
 
     
