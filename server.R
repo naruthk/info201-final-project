@@ -11,10 +11,9 @@
     
     
     national_arrests <- national_arrests %>%
-      filter(total_arrests, violent_crime) %>%
-      gather(key = "crime", value = "arrests", total_arrests, violent_crime) %>%
+      gather(key = "crime", value = "arrests", total_arrests : curfew_loitering) %>%
       select(year, "crime", "arrests") %>%
-      arrange(year)
+      arrange(arrests)
     
     filtered <- reactive({
       data_year <- national_arrests %>%
@@ -40,8 +39,9 @@
     output$plot_info <- renderPrint({
       
       cat(
-        "This plot shows the arrest records for the years 1995 - 2016. The total arrests are stacked ",
-        " againsts the violent arrests to show the difference in types of crimes each year. "
+        "This plot shows the arrest records for the years 1995 - 2016. The types of arrests are stacked to show how each kind of 
+        crime has progressed each year. Further statistics based on the specific year are found under this graph to look more in depth
+        of the yearly numbers. "
         
       ) 
     })
