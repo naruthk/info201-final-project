@@ -7,17 +7,14 @@ library(datasets)
 # Read all CSV Files required
 national <- read.csv("data/arrests_national.csv", stringsAsFactors = FALSE)
 national_arrests <- read.csv("data/arrests_national.csv",
-  stringsAsFactors =
-    FALSE
+  stringsAsFactors = FALSE
 )
 state <- read.csv("data/estimated_crimes.csv", stringsAsFactors = FALSE)
 juvenile_data <- read.csv("data/arrests_national_juvenile.csv",
-  stringsAsFactors
-  = FALSE
+  stringsAsFactors = FALSE
 )
 adults_data <- read.csv("data/arrests_national_adults.csv",
-  stringsAsFactors
-  = FALSE
+  stringsAsFactors = FALSE
 )
 
 # Tab 1 data sets
@@ -358,3 +355,4 @@ my_server <- function(input, output) {
   })
 }
 shinyServer(my_server)
+

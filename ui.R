@@ -1,11 +1,11 @@
 library(ggplot2)
 library(dplyr)
 library(shiny)
+library(markdown)
 
 national <- read.csv("data/arrests_national.csv", stringsAsFactors = FALSE)
 state_and_national <- read.csv("data/estimated_crimes.csv",
-  stringsAsFactors
-  = FALSE
+  stringsAsFactors = FALSE
 )
 state <- state_and_national[23:1144, ]
 
@@ -15,8 +15,7 @@ juvenile_data <- read.csv("data/arrests_national_juvenile.csv",
   stringsAsFactors = FALSE
 )
 juvenile_data <- filter(juvenile_data, year == 2016) %>%
-  filter(offense_name != "Curfew and Loitering Law Violations" & offense_name
-  != "Runaway")
+  filter(offense_name != "Curfew and Loitering Law Violations" & offense_name != "Runaway")
 
 # UI of the app 
 my_ui <-
