@@ -18,7 +18,7 @@ my_ui <- fluidPage(
   ),
     mainPanel(
       tabsetPanel(type = "tabs",
-                  tabPanel("How the different types of crimes connected to each other in different states?", 
+                  tabPanel("Type of crimes by state", 
                            plotOutput("plot1", click = "plot_click"),br(),
                            verbatimTextOutput("click1"),br(),
                            textOutput("explanation", inline = TRUE)),
