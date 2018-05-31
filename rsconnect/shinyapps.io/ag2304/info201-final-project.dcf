@@ -1,0 +1,12 @@
+name: info201-final-project
+title: info201-final-project
+username:
+account: ag2304
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 351888
+bundleId: 1403091
+url: https://ag2304.shinyapps.io/info201-final-project/
+when: 1527788036.50215
+asMultiple: FALSE
+asStatic: FALSE
