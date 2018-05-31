@@ -145,19 +145,19 @@ my_server <- function(input, output) {
                  for the selected state of",input$state_choice,"from 1995 to 2016. 
                  According to the graph, in every states, property crime was the most
                  and homicide was the less prevalent crime. To sum up, considering every states from 1995 to 2016, 
-                 property crime amounted to the highest record of",max(state[10],na.rm = TRUE),
-                 "number of crimes and homicide set a lowest record of",
+                 property crime amounted to the",strong("highest")," record of",max(state[10],na.rm = TRUE),
+                 "number of crimes and homicide set a",strong("lowest"),"record of",
                  min(state[5],na.rm = TRUE),"number of crimes. Considering every states from 1995 to 2016:",br(),
-                 "The average number of violent crimes is",average_violent_crime,".",br(),
-                 "The average number of homicide is",average_homicide,".",br(),
-                 "The average number of rape legacy is",average_rape_legacy,".",br(),
-                 "The average number of rape revised is",average_rape_revised,".",br(),
-                 "The average number of robbery is",average_robbery,".",br(),
-                 "The average number of aggravated assault is",average_aggravated_assault,".",br(),
-                 "The average number of property crime is",average_property_crime,".",br(),
-                 "The average number of burglary is",average_burglary,".",br(),
-                 "The average number of larceny is",average_larceny,".",br(),
-                 "The average number of motor vehicle theft is",average_motor_vehicle_theft,".",br(),
+                 "The average number of",strong("violent crimes"),"is",average_violent_crime,".",br(),
+                 "The average number of",strong("homicide"),"is",average_homicide,".",br(),
+                 "The average number of",strong("rape legacy"),"is",average_rape_legacy,".",br(),
+                 "The average number of",strong("rape revised"),"is",average_rape_revised,".",br(),
+                 "The average number of",strong("robbery"),"is",average_robbery,".",br(),
+                 "The average number of",strong("aggravated assault"),"is",average_aggravated_assault,".",br(),
+                 "The average number of",strong("property crime"),"is",average_property_crime,".",br(),
+                 "The average number of",strong("burglary"),"is",average_burglary,".",br(),
+                 "The average number of",strong("larceny"),"is",average_larceny,".",br(),
+                 "The average number of",strong("motor vehicle theft"),"is",average_motor_vehicle_theft,".",br(),
                  "Comparing the graph to these average values indicates whether the selected state is safer or more dangerous 
                  than  other states."))
   })
