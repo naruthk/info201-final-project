@@ -38,9 +38,7 @@ my_ui <- fluidPage(
                     tabPanel("DUI Against Various Theft Types", 
                              plotOutput("plot4"),
                              textOutput("analysis_plot_4"))
-      ),
-      h1("Reference:"),br(),
-      p(strong("Please visit:"), a(href="https://crime-data-explorer.fr.cloud.gov/", "crime-data-explorer.fr.cloud.gov"))
+      )
     )
   )
 )
