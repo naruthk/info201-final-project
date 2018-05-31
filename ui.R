@@ -13,6 +13,7 @@ my_ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
+
       selectInput("state_choice", label="Selected State", choices = state_abbreviations)
   ),
     mainPanel(
@@ -21,15 +22,25 @@ my_ui <- fluidPage(
                            plotOutput("plot1", click = "plot_click"),br(),
                            verbatimTextOutput("click1"),br(),
                            textOutput("explanation", inline = TRUE)),
-                           tabPanel("Plot", plotOutput("plot2")),
-                           tabPanel("Plot", plotOutput("plot3")),
-                           tabPanel("Plot", plotOutput("plot4"))
-                           
-                  ),
+                  tabPanel("Plot", plotOutput("plot2")),
+                  tabPanel("National Arrests Data", plotOutput("plot3"),
+                           selectInput("select_year", h3("Select Year"), choices = list(
+                             "1995" = 1995, "1996" = 1996, "1997" = 1997, "1998" = 1998, 
+                             "1999" = 1999, "2000" = 2000,
+                           "2001" = 2001,"2002" = 2002, "2003" = 2003, 
+                           "2004"= 2004,"2005" = 2005, "2006" = 2006,
+                           "2007" = 2007, "2008" = 2008, "2009" = 2009,
+                           "2010" = 2010,"2011" = 2011, "2012" = 2012, 
+                           "2013" = 2013,"2014" = 2014,
+                           "2015" = 2015,"2016" = 2016, selected = 2000)),
+
+                    dataTableOutput("table"), textOutput("plot_info")),
+                    tabPanel("DUI Against Various Theft Types", 
+                             plotOutput("plot4"),
+                             textOutput("analysis_plot_4"))
+      ),
       h1("Reference:"),br(),
       p(strong("Please visit:"), a(href="https://crime-data-explorer.fr.cloud.gov/", "crime-data-explorer.fr.cloud.gov"))
-      )
+    )
+  )
 )
-)
-
-  shinyUI(my_ui)
