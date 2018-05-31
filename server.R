@@ -1,14 +1,52 @@
-national <- read.csv("data/arrests_national.csv")
-state <- read.csv("data/estimated_crimes.csv")
+library(plotly)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
 
-library(datasets)
-data(iris)
+national <- read.csv("data/arrests_national.csv")
+national_arrests <- read.csv("data/arrests_national.csv")
+state <- read.csv("data/estimated_crimes.csv")
 
 crime_rates_national <- national %>%
   select(year, population, total_arrests, dui, robbery, 
          burglary, larceny, motor_vehicle_theft, stolen_property)
 
 my_server <- function(input, output) {
+    
+  national_arrests <- national_arrests %>%
+    gather(key = "crime", value = "arrests", total_arrests : curfew_loitering) %>%
+    select(year, "crime", "arrests") %>%
+    arrange(arrests)
+  
+  filtered <- reactive({
+    data_year <- national_arrests %>%
+      filter(year == input$select_year)
+    return(data_year)
+  })
+  
+  output$plot3 <- renderPlot({
+    p<- ggplot(data = national_arrests, aes(x = year, y = arrests, fill = crime)) +
+      geom_bar(stat = "identity") +
+      labs(
+        title = "Number of Arrests in the US",
+        x = "Year",
+        y = "Number of Arrests",
+        fill = "Type of Crime"
+      )
+    return(p)
+  })
+  
+  output$plot_info <- renderPrint({
+    cat(
+      "This plot shows the arrest records for the years 1995 - 2016. The types of arrests are stacked to show how each kind of 
+      crime has progressed each year. Further statistics based on the specific year are found under this graph to look more in depth
+      of the yearly numbers. "
+    ) 
+  })
+  
+  output$table <- renderDataTable({
+    return(filtered())
+  })
   
   # How does statistics on drinking under the influence (DUI)
   # compared to the rate of various types of thefts? 
@@ -35,32 +73,16 @@ my_server <- function(input, output) {
                                     face="bold",
                                     vjust = 1,
                                     lineheight = 0.8,
-                                    margin = margin(10, 0, 10, 0))) +
-      labs(caption = "The rate of driving under the influence (DUI) decreases
-            from 1995 to 2016 along with other type of thefts as well.
-            What is extremely evidential is that the numbers of DUI and larceny 
-            crimes exceed that of crimes such as burglary, robbery, and etc. 
-            Overall, there has been a decrease in the number of crimes from
-            1995 to 2016.
-           ")
-    
-    # ggplot(data = filtered(), 
-    #        mapping = aes(x = Year, y = Number_of_Eviction_Judgment)) +
-    #   geom_point() + geom_smooth(method = "lm") +
-    #   ggtitle(paste("DUI Against Other Theft Crimes")) +
-    #   theme(
-    #     plot.title = element_text(size = 20, 
-    #                               face="bold",
-    #                               vjust = 1, 
-    #                               lineheight = 0.8,
-    #                               margin = margin(10, 0, 10, 0))) +
-    #   labs(y = "Number of Evictions", 
-    #        caption = "
-    #        Remark: This table displays the rate of evictions over the years. 
-    #        Note that certain states may not have the data to display.")
-    # 
+                                    margin = margin(10, 0, 10, 0)))
+  })
+  
+  output$analysis_plot_4 <- renderText({
+    paste0(
+        "This plot shows the arrest records for the years 1995 - 2016. The types of arrests are stacked to show how each kind of 
+        crime has progressed each year. Further statistics based on the specific year are found under this graph to look more in depth
+        of the yearly numbers."
+    ) 
   })
   
 }
 
-shinyServer(my_server)
