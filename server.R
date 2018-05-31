@@ -2,10 +2,13 @@ library(plotly)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(datasets)
 
-national <- read.csv("data/arrests_national.csv")
-national_arrests <- read.csv("data/arrests_national.csv")
-state <- read.csv("data/estimated_crimes.csv")
+national <- read.csv("data/arrests_national.csv", stringsAsFactors = FALSE)
+national_arrests <- read.csv("data/arrests_national.csv", stringsAsFactors = FALSE)
+state <- read.csv("data/estimated_crimes.csv", stringsAsFactors = FALSE)
+juvenile_data <- read.csv("data/arrests_national_juvenile.csv", stringsAsFactors = FALSE)
+adults_data <- read.csv("data/arrests_national_adults.csv", stringsAsFactors = FALSE)
 
 average_violent_crime <- summarize(state, average = mean(violent_crime, na.rm = TRUE))
 average_homicide <- summarize(state, average = mean(homicide, na.rm = TRUE))
@@ -21,9 +24,6 @@ average_motor_vehicle_theft <- summarize(state, average = mean(motor_vehicle_the
 crime_rates_national <- national %>%
   select(year, population, total_arrests, dui, robbery, 
          burglary, larceny, motor_vehicle_theft, stolen_property)
-
-juvenile_data <- read.csv("data/arrests_national_juvenile.csv", stringsAsFactors = FALSE)
-adults_data <- read.csv("data/arrests_national_adults.csv", stringsAsFactors = FALSE)
 
 juvenile_data_req <- mutate(juvenile_data, total_arrests = total_male + total_female) %>% 
   filter(offense_name != "Curfew and Loitering Law Violations" & offense_name != "Runaway") %>% 
@@ -60,7 +60,12 @@ my_server <- function(input, output) {
         x = "Year",
         y = "Number of Arrests",
         fill = "Type of Crime"
-      )
+      ) +
+      theme(plot.title = element_text(size = 20,
+                                      face="bold",
+                                      vjust = 1,
+                                      lineheight = 0.8,
+                                      margin = margin(10, 0, 10, 0)))
     return(p)
   })
   
@@ -72,7 +77,7 @@ my_server <- function(input, output) {
     ) 
   })
   
-  output$table <- renderDataTable({
+  output$table_3 <- renderDataTable({
     return(filtered_1())
   })
   
@@ -139,8 +144,11 @@ my_server <- function(input, output) {
       theme(axis.text = element_text(size = rel(1.5)),
             axis.title.x = element_text(size = rel(1.5),face = "bold"),
             axis.title.y = element_text(size = rel(1.5),face = "bold"),
-            plot.title = element_text(size = rel(1.5), 
-                                      face = "bold",hjust = 0.5))
+            plot.title = element_text(size = 20,
+                                            face="bold",
+                                            vjust = 1,
+                                            lineheight = 0.8,
+                                            margin = margin(10, 0, 10, 0)))
     
     return(plot)
   })
@@ -159,27 +167,33 @@ my_server <- function(input, output) {
   
   output$explanation <- renderText({
     return(paste("The graph above shows the data of different types of crimes
-                 for the selected state of",input$state_choice,"from 1995 to 2016. 
-                 According to the graph, in every states, property crime was the most
-                 and homicide was the less prevalent crime. To sum up, considering every states from 1995 to 2016, 
+                 for the state of",input$state_choice,"from 1995 to 2016. 
+                 When we go through every state, we find that property crime was the most
+                 and homicide was the least prevalent crime. To sum up, considering every state from 1995 to 2016, 
                  property crime amounted to the",strong("highest")," record of",max(state[10],na.rm = TRUE),
-                 "number of crimes and homicide set a",strong("lowest"),"record of",
-                 min(state[5],na.rm = TRUE),"number of crimes. Considering every states from 1995 to 2016:",br(),
-                 "The average number of",strong("violent crimes"),"is",average_violent_crime,".",br(),
-                 "The average number of",strong("homicide"),"is",average_homicide,".",br(),
-                 "The average number of",strong("rape legacy"),"is",average_rape_legacy,".",br(),
-                 "The average number of",strong("rape revised"),"is",average_rape_revised,".",br(),
-                 "The average number of",strong("robbery"),"is",average_robbery,".",br(),
-                 "The average number of",strong("aggravated assault"),"is",average_aggravated_assault,".",br(),
-                 "The average number of",strong("property crime"),"is",average_property_crime,".",br(),
-                 "The average number of",strong("burglary"),"is",average_burglary,".",br(),
-                 "The average number of",strong("larceny"),"is",average_larceny,".",br(),
-                 "The average number of",strong("motor vehicle theft"),"is",average_motor_vehicle_theft,".",br(),
+                 "number of crimes committed and homicide set a",strong("lowest"),"record of",
+                 min(state[5],na.rm = TRUE),"number of crimes.",br(), "Considering every states from 1995 to 2016:",br(),
+                 "The average number of",strong("violent crimes"),"is", round(average_violent_crime, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("homicide"),"is", round(average_homicide, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("rape legacy"),"is", round(average_rape_legacy, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("rape revised"),"is",round(average_rape_revised, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("robbery"),"is", round(average_robbery, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("aggravated assault"),"is", round(average_aggravated_assault, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("property crime"),"is", round(average_property_crime, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("burglary"),"is", round(average_burglary, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("larceny"),"is",round(average_larceny, digits = 0),"(approx.).",br(),
+                 "The average number of",strong("motor vehicle theft"),"is", round(average_motor_vehicle_theft, digits = 0),"(approx.).",br(),
                  "Comparing the graph to these average values indicates whether the selected state is safer or more dangerous 
                  than  other states."))
   })
-}
-
+  
+  
+  output$intro_viz <- renderText({
+    paste0("The follwing vizualization would provide the user with the analysis on a selected crime and would draw out a 
+           plot and information to prove the difference between Adults and Juveniles commiting the crime. To begin with select 
+           a crime of your choice.")
+  })
+  
   filtered_3 <- reactive({
     new_data <- filter(combined_compare_data, Offense_Name == input$crimes)
     return(new_data)
@@ -188,13 +202,13 @@ my_server <- function(input, output) {
   output$intro_to_graph <- renderText({
     crime_selected <- input$crimes
     intro <- paste0("The following plot presents before the user the comparison between Adults
-                     and Juvenile regarding the crime related to ", crime_selected, " in the years
+                    and Juvenile regarding the crime related to ", crime_selected, " in the years
                     1994 - 2016.")
   })
   
   output$plot2 <- renderPlot({
     crime_selected <- input$crimes
-     ggplot(filtered(), aes(x = year)) +
+    ggplot(filtered_3(), aes(x = year)) +
       geom_line(aes(y = adults_arrests, color = "Adults_Arrested")) +
       geom_line(aes(y = juvenile_arrests, color = "Juvenile_Arrests")) +
       labs(
@@ -207,7 +221,7 @@ my_server <- function(input, output) {
                                       vjust = 1,
                                       lineheight = 0.8,
                                       margin = margin(10, 0, 10, 0))) 
-      })
+  })
   output$conclusion_to_grph <- renderText({
     crime_selected <- input$crimes
     mean_adults <- summarize(filtered_3(), mean(adults_arrests))
@@ -225,16 +239,15 @@ my_server <- function(input, output) {
            and juveniles were made in years ", min_adults, " and ", min_juvenile, " respectively. We can also see that in the matters
            related to " , crime_selected, ", average number of arrests in the adults for years 1994 to 2016 is ", round(mean_adults, digits = 0), ". The average
            arrests among juveniles is ", round(mean_juvenile, digits = 0), ". Thus by looking the graph and also seeing the average arrests of
-           both juveniles and adults, we can conclude that adults are more involved in substance abuse.")
+           both juveniles and adults, we can conclude that adults are more involved in ", crime_selected)
   })
   
-  output$table <- renderDataTable({
+  output$table_2 <- renderDataTable({
     new_data <- filter(combined_compare_data, Offense_Name == input$crimes) %>% 
       filter(year > input$year[1] & year < input$year[2])
     return(new_data)
   })
   
 }
-
 shinyServer(my_server)
 
