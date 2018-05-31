@@ -21,7 +21,7 @@ my_ui <- fluidPage(
                   tabPanel("Type of crimes by state", 
                            plotOutput("plot1", click = "plot_click"),br(),
                            verbatimTextOutput("click1"),br(),
-                           textOutput("explanation", inline = TRUE)),
+                           htmlOutput("explanation", inline = TRUE)),
                   tabPanel("Plot", plotOutput("plot2")),
                   tabPanel("National Arrests Data", plotOutput("plot3"),
                            selectInput("select_year", h3("Select Year"), choices = list(
