@@ -161,7 +161,10 @@ my_server <- function(input, output) {
     paste0(
         "This plot shows the arrest records for the years 1995 - 2016. The types of arrests are stacked to show how each kind of 
         crime has progressed each year. Further statistics based on the specific year are found under this graph to look more in depth
-        of the yearly numbers."
+        of the yearly numbers. From this analysis, we can form a conclusion that the rate of DUI crime far exceeds that of theft crimes. 
+        This tells us that (1) a correlation may actually not exist between DUI crime and other type of theft crimes; (2) larceny and DUI
+         crimes share roughly the same trend; (3) in general, the amount of theft-related crimes are decreasing over the years, and so 
+         does the rate of DUI crime decrease too."
     ) 
   })
   
